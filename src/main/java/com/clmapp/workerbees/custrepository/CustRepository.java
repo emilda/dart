@@ -15,6 +15,6 @@ public interface CustRepository extends MongoRepository<Customer, String>{
     List<Customer> findCustomersByPostalCode(String postalCode);
     @Query("{ 'postalCode' : ?0 }")
     Customer findCustomerByPolnbr(String postalCode);*/
-	public List<Customer>findByPolicyNbr(String policyNbr);
+	public Customer findByPolicyNbr(String policyNbr);
 	public List<Customer>findByName(String name);
 }

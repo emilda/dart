@@ -6,10 +6,12 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -21,12 +23,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.clmapp.workerbees.ClaimDemoApplication;
+import com.clmapp.workerbees.custrepository.CustRepository;
+import com.clmapp.workerbees.model.Customer;
 
 
 @Controller
 public class FileUploadController {
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	private CustRepository custRepository;
+	  
 
 	@RequestMapping(method = RequestMethod.GET, value = "/listfiles")
 	public String provideUploadInfo(Model model) {
@@ -69,6 +77,9 @@ public class FileUploadController {
 				redirectAttributes.addFlashAttribute("message",
 						"You successfully uploaded " + name + "!");
 				log.debug("file uploaded");
+				Customer customer = custRepository.findByPolicyNbr(name);
+				redirectAttributes.addFlashAttribute("cpolicy", name);
+				redirectAttributes.addFlashAttribute("cname", customer.getName());
 			}
 			catch (Exception e) {
 				redirectAttributes.addFlashAttribute("message",

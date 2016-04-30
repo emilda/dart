@@ -80,7 +80,7 @@ public class CustomerController {
 	  public Map<String, Object>getCustomerBypolicyNbr(@PathVariable("policyNbr") String policyNbr){
 	//	Customer customer = new Customer();
 		log.debug("Customer Policy Nbr:being requested is " + policyNbr );
-		List<Customer> customers = custRepository.findByPolicyNbr(policyNbr);
+		Customer customers = custRepository.findByPolicyNbr(policyNbr);
 	//	log.debug("Customer Policy Nbr:" + customer.getPolicyNbr());	
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("Customer by policyNbr", customers);
