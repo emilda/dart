@@ -32,6 +32,8 @@ function GoogleMapInit(id, latitude, longitude, address)
             map: map, 
             position: results[0].geometry.location
          });
+         //populate Travelers field offices
+         findFieldOffice();
       } 
       else 
       {
@@ -46,18 +48,29 @@ function GoogleMapcall()
 	GoogleMapRecall(addy);
 }
 
-function GoogleMapRecall(address) 
-{
+function GoogleMapRecall(address) {
 	//alert("new");
 	//alert(address); 
     geocoder.geocode( { 'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) 
         {
-            map.setCenter(results[0].geometry.location);
+            map.setCenter(results[0].geometry.location); 
+            map.setZoom(16);
             var marker = new google.maps.Marker({
                 map: map, 
                 position: results[0].geometry.location
             });
+            var cityCircle = new google.maps.Circle({
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+                map: map,
+                //center: {lat: 35.4676, lng: -97.5164},
+                center: results[0].geometry.location,
+                radius: Math.sqrt(10000) * 100
+              });
         } 
         else 
         {
@@ -104,31 +117,65 @@ function buildInsured(insuredlist) {
    var insured = 0;
    var _lat;
 
-
-   
- 	 	for (insured = 0; insured < insuredlist.Customer_zip.length; insured++) {
-		  var parsed_lat_long = { lat:parseFloat( insuredlist.Customer_zip[insured].position.substring(0, 9) ), lng:parseFloat( insuredlist.Customer_zip[insured].position.substring(10, 19)  ) };
-		  console.log(parsed_lat_long);
- 	  	  var marker = new google.maps.Marker({
- 			//icon: icon.png,
-			position: parsed_lat_long,
-			animation: google.maps.Animation.DROP,
- 			map: map,
- 			title: "Policy: " + insuredlist.Customer_zip[insured].policyNbr
- 		  });
- 		  
- 		  var infowindow = new google.maps.InfoWindow({ 
-      		content: '<IMG BORDER="0" ALIGN="Left" SRC="icon.png">' + 
-      		"Insured: " +  insuredlist.Customer_zip[insured].name + "<br />" + 
-      		"Policy #: " + insuredlist.Customer_zip[insured].policyNbr + "<br />" +
-      		"Contact Info: " + insuredlist.Customer_zip[insured].telephoneNbr + "<br />" +  
-      		'<IMG BORDER="0" ALIGN="Left" SRC="storm damage example.jpg">'
-	  	  });
- 		   		  
- 		  marker.addListener('click', function() {
-   			map.setZoom(15);
-    		map.setCenter(marker.getPosition());
-    		infowindow.open(map, marker);
- 		  });
-	  	}
+	for (insured = 0; insured < insuredlist.Customer_zip.length; insured++) {
+	  var parsed_lat_long = { lat:parseFloat( insuredlist.Customer_zip[insured].position.substring(0, 9) ), lng:parseFloat( insuredlist.Customer_zip[insured].position.substring(10, 19)  ) };
+	  var insuredCust = insuredlist.Customer_zip[insured];
+	  console.log(parsed_lat_long);
+	  createMarker(insuredCust, parsed_lat_long);
+	 };
 }
+ 		  
+  //call createMarker
+function createMarker(insuredCust, position) {
+  	var infowindow = new google.maps.InfoWindow();
+  	var iconcolor = determineDamageColor(insuredCust.severity);
+  	var marker = new google.maps.Marker({
+		icon: iconcolor,
+    	position: position,
+      	title: insuredCust.policyNbr,
+      	map: map
+   });
+     		
+  	marker.addListener('click', function() {
+		//creates infowindow
+  		createInfoWindow(insuredCust, marker);
+		//map.setCenter(marker.getPosition());
+	   	});
+   }
+ 		   		 
+
+function createInfoWindow(insuredCust, marker) {
+	var infowindow = new google.maps.InfoWindow({
+   		content:'<IMG BORDER="0" ALIGN="Left" SRC="icon.png">' + 
+  				"Insured: " +  insuredCust.name + "<br />" + 
+  				"Policy #: " + insuredCust.policyNbr + "<br />" +
+  				"Contact Info: " + insuredCust.telephoneNbr + "<br />" +  
+  				'<IMG BORDER="0" ALIGN="Left" SRC="' + insuredCust.url_img + '">'
+  	}); 
+  	infowindow.open(map, marker);	
+   }      
+    
+//determine icon color based on severity
+function determineDamageColor(severity) {
+  	 var iconcolor = "blueHome.png"; 	  
+  	 if(severity > 7){
+  	 	iconcolor = 'greenHome.png';
+  	 }
+  	 else if(severity <= 7 && severity > 4){
+  	  	iconcolor = 'yellowHome.png';
+  	 }
+   	 else if(severity <= 4){
+   	  	iconcolor = 'redHome.png';
+  	 }
+	return iconcolor;
+}
+
+function findFieldOffice(){
+	var marker = new google.maps.Marker({
+		icon: "icon.png",
+    	position: {lat: 38.889956, lng: -94.673202},
+      	map: map
+   });
+}
+
+ 	 	
