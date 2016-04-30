@@ -22,7 +22,7 @@
 </ul>
 <p>
 <div th:if="${message}">
-		<h2 th:text="${message}"/>
+		<h2 th:text="${message}" />
 	</div>
 </p>	
 
@@ -37,6 +37,24 @@
 	</form>
 </div>
 
+
+<P></P>
+
+<div >
+<table>
+	<thead><tr><th>Customer Name</th><th>Policy Number</th><th>Severity</th><th>Estimated Exposure</th></tr></thead>
+	<tbody>
+		<tr>
+			<td th:text="${cname}"/>
+			<td th:text="${cpolicy}"/>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<p><input type="submit" id="Button1" value="Analyze" /></p>
 
 </body>
 </html>
