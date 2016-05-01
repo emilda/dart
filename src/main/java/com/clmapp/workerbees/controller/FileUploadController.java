@@ -80,6 +80,8 @@ public class FileUploadController {
 				Customer customer = custRepository.findByPolicyNbr(name);
 				redirectAttributes.addFlashAttribute("cpolicy", name);
 				redirectAttributes.addFlashAttribute("cname", customer.getName());
+				redirectAttributes.addFlashAttribute("cseverity", customer.getSeverity());
+				redirectAttributes.addFlashAttribute("cexposure", customer.getExposure());
 			}
 			catch (Exception e) {
 				redirectAttributes.addFlashAttribute("message",
