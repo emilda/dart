@@ -200,7 +200,8 @@ function loadPostAlgorithmImage(){
 	elem.setAttribute("width", "200");
 	elem.setAttribute("align","middle");
 	elem.setAttribute("src","\roof-hail-damage_after.jpg");
-	elem.setAttribute("src","");
+	elem.src = 'roof-hail-damage_after.jpg';
+	
 	document.getElementById("postAnalysisImg").appendChild(elem);
 	
 	
