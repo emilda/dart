@@ -178,4 +178,32 @@ function findFieldOffice(){
    });
 }
 
+function callDamageAlgorithm(){
+	  var elem = document.getElementById("myBar");   
+	  var width = 0;
+	  var id = setInterval(frame, 10);
+	  function frame() {
+	    if (width >= 100) {
+	      clearInterval(id);
+	    } else {
+	      width++; 
+	      elem.style.width = width + '%'; 
+	      document.getElementById("label").innerHTML = width * 1  + '%';
+	    }
+	  }
+	  setTimeout(loadPostAlgorithmImage, 3000);
+}
+function loadPostAlgorithmImage(){
+	var elem = document.createElement("img");
+	//elem.setAttribute("src", "images/hydrangeas.jpg");
+	elem.setAttribute("height", "200");
+	elem.setAttribute("width", "200");
+	elem.setAttribute("align","middle");
+	elem.setAttribute("src","\roof-hail-damage_after.jpg");
+	elem.setAttribute("src","");
+	document.getElementById("postAnalysisImg").appendChild(elem);
+	
+	
+}
+
  	 	
