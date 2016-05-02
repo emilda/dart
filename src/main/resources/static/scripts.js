@@ -259,12 +259,21 @@ function loadPostAlgorithmImage(){
 	var elem = document.createElement("img");
 	//elem.setAttribute("src", "images/hydrangeas.jpg");
 	elem.setAttribute("height", "200");
-	elem.setAttribute("width", "200");
+	elem.setAttribute("width", "400");
 	elem.setAttribute("align","middle");
 	elem.setAttribute("src","\roof-hail-damage_after.jpg");
-	elem.src = 'roof-hail-damage_after.jpg';
+	elem.src = 'roof-hail-damage_before.jpg';
+	document.getElementById("preAnalysisImg").appendChild(elem);
 	
-	document.getElementById("postAnalysisImg").appendChild(elem);
+	var elem2 = document.createElement("img");
+	//elem2.setAttribute("src", "images/hydrangeas.jpg");
+	elem2.setAttribute("height", "200");
+	elem2.setAttribute("width", "400");
+	elem2.setAttribute("align","middle");
+	elem2.setAttribute("src","\roof-hail-damage_after.jpg");
+	elem2.src = 'roof-hail-damage_after.jpg';
+	
+	document.getElementById("postAnalysisImg").appendChild(elem2);
 	
 	
 }
